@@ -5,9 +5,10 @@
 *
 !*.*
 !*/
+!Makefile
 
 # Ignore all jpg files as they might be big
-*.jpg
+# *.jpg
 
 # Ignore vscode files
 .vscode/
