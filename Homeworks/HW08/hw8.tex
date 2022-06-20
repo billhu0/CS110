@@ -1,0 +1,261 @@
+\documentclass[answers]{exam}
+% \documentclass[addpoints,answers]{exam}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+
+\title{Computer Architecture Homework 8}
+\date{Spring 2022, May}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+
+
+\maketitle
+
+\section*{Problem 1 (10 points) }
+Choose True / False:\\
+\\1.A virtual memory system that uses paging is vulnerable to external fragmentation.\underline{\hbox to 10mm{F}}
+\\2.One way to solve Compulsory miss is to increase the block size.\underline{\hbox to 10mm{T}}
+\\3.In a bare system, addresses issued with loads/stores are real physical addresses other than virtual address.\underline{\hbox to 10mm{T}}
+\\4.The size of the virtual address space accessible to the program cannot be larger than the size of the physical address space.\underline{\hbox to 10mm{F}}\\
+
+\section*{Problem 2 (10 points)}
+This question refers to an architecture using segmentation with paging. In this architecture, the 32-bit virtual address is divided into fields as follows:
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|c|c|c|} 
+      \hline
+      3 bit segment number &	13 bit page number 	& 16 bit offset\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+\\Here is the relevant table (all values in hexadecimal):
+\begin{table}[h!]
+  \begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{Segment Table}& \multicolumn{2}{c|}{Page Table A}&\multicolumn{2}{c|}{Page Table B}\\
+         \hline
+        0&   Page Table A&  0&	CAEF&	0&	C001\\
+         \hline
+        1& 	 Page Table B&	1&	DEAB&	1&	D5AA\\
+         \hline
+        X&	(rest invalid)&	2&	BFFE&	2&	A000\\
+         \hline
+		&                 & 3&	AF11&	3&	BA09\\
+		 \hline
+	    &	              & X&	(rest invalid)&	X&	(rest invalid)\\
+	     \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+\\Find the physical address corresponding to each of the following virtual addresses (answer "bad virtual address" if the virtual address is invalid):\\
+\begin{center}
+1.0x00000000  \underline{\hbox to 40mm{CAEF0000}}
+\\2.0x20032003  \underline{\hbox to 40mm{BA092003}}
+\\3.0x100205BD  \underline{\hbox to 40mm{bad\ virtual\ address}}
+\end{center}
+
+
+\vspace{12mm}
+
+\section*{Problem 3 (30 points)}
+In a 34-bit machine we subdivide the virtual address into 4 segments as follows:\\
+\begin{table}[h!]
+  \begin{center}
+  \setlength{\tabcolsep}{7mm}
+    \begin{tabular}{|c|c|c|c|} 
+      \hline
+      8 bit &	7 bit &	7 bit &	12 bit\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+\\We use a 3-level page table, such that the first 8-bit are for the first level and so on. Assume the size of each page table is equal to one page size. (Ignore the fragments and treat it roughly as one page)
+
+
+\begin{itemize}
+  \item \textbf{Question 1.}What is the page size in such a system? 
+  
+  Since the offset has 12 bits, each page can hold $2^{12} = 4096$ bytes = 4kb. Therefore the page size is 4kb.
+  
+  \vspace{2cm}
+
+  \item \textbf{Question 2.}What is the size of a page table for a process that has 256K of memory starting at address 0? 
+  
+  Suppose the start of the memory address the process uses is $0$.\\
+  Since it has 256K of memory, the end of the memory address has an L3 index of $1000000$ (64 in decimal). Therefore only 1 L3 page table is enough to hold it. The process requires 1 L1 page table, 1 L2 page table and 1 L3 page table.
+
+  Since the size of each page table is 4KB, the size of the page table for this process is 12KB.
+  
+  \vspace{1.5cm}
+
+  \item \textbf{Question 3.}What is the size of a page table for a process that has a code segment of 48K starting at address 0x1000000, a data segment of 600K starting at address 0x80000000 and a stack segment of 64K starting at address 0xf0000000 and growing upward ? 
+  
+  \begin{enumerate}
+    \item The code segment, starting at 0x1000000, 48K.
+    
+    $48K = 3 \times 2^{13}$. Since the start address is 0x1000000, the start and end address is partitioned to:
+
+    start addr: 0 ... 0 | 0...1...0 | 0 ... 0 ... 0 | 000000000000
+
+    end addr:  0 ... 0 | 0...1...0 | 0 ... 1 ... 0 | 000000000000
+
+    Therefore we need 1 L2 page table and 1 L3 page table, consuming 8KB.
+
+    \item The data segment, starting at address 0x80000000, 600K.
+    
+    The start and end address is partitioned to:
+
+    start addr: 1 ... 0 | 0 ... 0 ... 0 | 0 ... 0 ... 0 | 000000000000
+
+    end addr: 1 ... 0 | 0 ... 0 ... 1 | 0 ... 1 ... 0 | 000000000000
+
+    Therefore we need 1 L2 page table, and 2 L3 page table, consuming 12KB.
+
+    \item The stack segment, starting at 0xf0000000, 64K
+    
+    The start and end address is partitioned to:
+
+    start addr: 1111...0 | 0...0 | 0...1...0 | 000000000000
+
+    end addr: 1111...0 | 0...0 | 0...1...0 | 000000000000
+
+    Therefore we need 1 L2 page table and 1 L3 page table, consuming 8KB.
+
+  \end{enumerate}
+
+  In addition, they all need one L1 page table in common, therefore the whole page table size is 4KB + 8KB + 12KB + 8KB = 32KB.
+
+
+\end{itemize}
+
+
+
+\newpage
+\section*{Problem 4 (20 points)}
+A processor has 16-bit addresses, 256 byte pages, and an 8-entry fully associative TLB with LRU replacement (the LRU field is 3 bits and encodes the order in which pages were accessed, 0 being the most recent). At some time instant, the TLB for the current process is the initial state given in the table below. Assume that all current page table entries are in the initial TLB. Assume also that all pages can be read from and written to. Fill in the final state of the TLB according to the access pattern below. Free physical pages: 0x17, 0x18, 0x19.
+
+\begin{table}[h!]
+  \begin{center}
+  \setlength{\tabcolsep}{7mm}
+    \begin{tabular}{|c|c|} 
+      \hline
+      1&write 0x776e\\
+      \hline
+      2&read 0x9796\\
+      \hline
+      3&write 0x9a0f\\
+      \hline
+      4&read 0x5a82\\
+      \hline
+      5&write 0x035b\\
+      \hline
+      6&read 0x0365\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\begin{minipage}{\textwidth}
+ \begin{minipage}[t]{0.45\textwidth}
+  \centering
+     \makeatletter\def\@captype{table}\makeatother
+       \begin{tabular}{|c|c|c|c|c|} 
+      \hline
+        \textbf{VPN} &\textbf{PPN} &\textbf{Valid} &\textbf{Dirty} &\textbf{LRU}\\
+         \hline
+        0x6f & 0x48 & 1 & 0 & 0\\
+         \hline
+        0x03 & 0x97 & 1 & 1 & 5\\
+         \hline
+        0x77 & 0x56 & 1 & 0 & 6\\
+         \hline
+        0x1f & 0x2d & 1 & 1 & 1\\
+         \hline
+        0x9a & 0x9a & 1 & 0 & 3\\
+         \hline
+        0x00 & 0x00 & 0 & 0 & 7\\
+         \hline
+        0xea & 0x6d & 1 & 1 & 2\\
+         \hline
+        0xc8 & 0x21 & 1 & 0 & 4\\
+         \hline
+    \end{tabular}
+  \end{minipage}
+  \begin{minipage}[t]{0.45\textwidth}
+   \centering
+        \makeatletter\def\@captype{table}\makeatother
+         \begin{tabular}{|c|c|c|c|c|} 
+      \hline
+        \textbf{VPN} &\textbf{PPN} &\textbf{Valid} &\textbf{Dirty} &\textbf{LRU}\\
+         \hline
+         0x6f & 0x48 & 1 & 0 & 5 \\
+         \hline
+         0x5a & 0x18 & 1 & 0 & 1 \\
+         \hline
+         0x77 & 0x56 & 1 & 1 & 4 \\
+         \hline
+         0x1f & 0x2d & 1 & 1 & 6 \\
+         \hline
+         0x9a & 0x9a & 1 & 1 & 2 \\
+         \hline
+         0x97 & 0x17 & 1 & 0 & 3 \\
+         \hline
+         0xea & 0x6d & 1 & 1 & 7 \\
+         \hline
+         0x03 & 0x19 & 1 & 1 & 0 \\
+         \hline
+    \end{tabular}
+   \end{minipage}
+\end{minipage}
+
+\pagebreak
+
+\section*{Problem 5 (30 points)}
+Assume a computer has 32-bit addresses, 4KB pages, and the physical memory space is 4GB. The computer uses two-level paging, each page table entry consists of a next-level address index and seven additional control bits.
+
+
+
+\begin{itemize}
+  \item \textbf{Question 1.}What is the minimum number of bits per secondary page table entry? And justify your ans..
+  
+
+  The number of pages is $4 \times 2^{30} / (4 \times 2^{10}) = 2^{20}$, thus the address index in each L2 page table is 20 bits.
+
+  Therefore, the min number of bits per L2 PTE is $20+7 = 27$ bits.
+
+  \vspace{1.5cm}
+
+
+  \item \textbf{Question 2.}What is the minimum number of bits per level 1 page table entry? And justify your ans..
+  
+  Similar to question 1, we also need 20 bits to store the index for L1 page table, therefore the min number of bits per L1 PTE is 27 bits.
+
+  \vspace{1.5cm}
+
+
+  \item \textbf{Question 3.}Assuming that each page table entry is 8 bytes in size (In addition to the next level address index and seven additional control bits, we have added some new things to expand its size to 8 bytes) and each page table is exactly 1 page in size, how many bits of virtual address does the program actually use?
+  (Hint: It means that not all 32 bits are valid virtual addresses, and some bits may be useless.)
+
+  The number of PTE in one page is $4\times 2^{10} / 8 = 2^{9}$. 
+  
+  Since there are 2 virtual page levels, and each level of page table occupies $9$ bits, the total number of bits of the virtual address is $9 + 9 + 12 = 30$ bits.
+
+  \vspace{1.5cm}
+
+  \item \textbf{Question 4.}According to question 3, how many bytes is the virtual address space of an application?
+  
+
+  Since the number of virtual pages is $2^9 \times 2^9 = 2^{18}$ and each virtual page has a size of 4KB, the overall virtual address is $2^{18} \times (4 \times 2^{10}) = 2^{30}$ Bytes
+
+
+\end{itemize}
+
+
+\end{document}
+ 

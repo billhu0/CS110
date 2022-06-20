@@ -1,0 +1,73 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is a LaTeX template for students
+% working on Homework 6, Computer Architecture I, Spring, 2022.
+% You SHALL NOT distribute this template.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[addpoints]{exam}
+\printanswers
+% \noprintanswers
+
+\ifprintanswers
+\renewcommand{\solutiontitle}{\noindent\textbf{Your answer:}\enspace}
+\fi
+
+\usepackage{minted}
+
+\usepackage[utf8]{inputenc}
+\title{
+    \Large{Computer Architecture I} \\
+    \large{Spring, 2022}\\
+    \Large{Homework 6}}
+\author{ShanghaiTech University}
+\date{Due: May 7, 2022, 23:59}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{circledsteps}
+%% THINGS ABOVE SHOULD BE LEFT UNTOUCHED %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% From TA: include your package here.
+% \usepackage{___}
+%% THINGS BELOW SHOULD BE LEFT UNTOUCHED %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+% Instruction of this homework
+\section*{Instructions}
+This homework will help you review CPU caches. Remember to go through
+the textbook and all the lecture slides related.
+\section*{Submission Guideline}
+\begin{itemize}
+    \item Both hand-writing and typesetting are accepted. You may find
+    a LaTeX template helpful on our course website.
+    \item Only PDF submissions to Gradescope will be counted. If you
+    choose to write by hand, make sure it is transformed into a PDF
+    document. Both scanning and taking photos are accepted.
+    \item Please assign your answers properly on Gradescope. Any
+    submission without proper assignment will result in a 25\% point
+    reduction.
+\end{itemize}
+
+% A meme :)
+\begin{center}
+    \includegraphics[width=\textwidth]{img/meme1.jpg}
+\end{center}
+
+\newpage
+
+%% THINGS ABOVE SHOULD BE LEFT UNTOUCHED %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% From TA: Please go to `cache_basic.tex` to typeset your answers for
+% section 1! Your answer will be reflected.
+\include{cache_basic}
+\newpage
+% From TA: Please go to `overbyte.tex` to typeset your answers for
+% section 2! Your answer will be reflected.
+\include{overbyte}
+\newpage
+% From TA: Please go to `practical.tex` to typeset your answers for
+% section 3! Your answer will be reflected.
+\include{practical}
+%% THINGS BELOW SHOULD BE LEFT UNTOUCHED %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{feedback}
+
+\end{document}

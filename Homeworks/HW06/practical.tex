@@ -1,0 +1,154 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is a LaTeX template for students
+% working on Homework 6, Computer Architecture I, Spring, 2022.
+% You SHALL NOT distribute this template.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Let's See Some Real World Example}
+
+Each time when you access the course website, your activity will be
+recorded into our web server logs! This is the definition of the web
+server log for our Computer Architecture course website. Assume our
+web server is a 32-bit machine. In this question, we will examine
+code optimizations to improve log processing speed. The data
+structure for the log is defined below.
+\begin{minted}{c}
+    struct log_entry {
+        int src_ip;    /* Remote IP address */
+        char URL[128]; /* Request URL. You can consider 128 characters are enough. */
+        long reference_time; /* The time user referenced to our website. */
+        char browser[64]; /* Client browser name */
+        int status; /* HTTP response status code. (e.g. 404) */
+    } log[NUM_ENTRIES];
+\end{minted}
+Assume the following processing function for the log. This function
+determines the most frequently observed source IPs during the given
+hour that succeed to connect our website.
+
+\begin{minted}{c}
+    topK_success_sourceIP (int hour);
+\end{minted}
+
+\begin{questions}
+
+\question[2] Which field(s) in a log entry will be accessed for the
+given log processing function?
+
+{
+    \begin{solution}
+        Note: There may exist(s) one or more correct choice(s).\\
+        % If you find the correct answer, substitute `\choice`
+        % by `CorrectChoice`!
+        \begin{oneparcheckboxes}
+            \CorrectChoice \texttt{src\_ip}
+            \choice \texttt{URL}
+            \CorrectChoice \texttt{reference\_time}
+            \choice \texttt{browser}
+            \CorrectChoice \texttt{status}
+        \end{oneparcheckboxes}
+    \end{solution}
+}
+
+\question[1] Assuming 32-byte cache blocks and no prefetching, how
+many cache misses per entry does the given function incur on average? \label{q:miss}
+
+{
+    \begin{solution}
+        % fill your answer in \fillin arguments.
+        \fillin[2.25][4in]
+    \end{solution}
+}
+
+\question[3] How can you reorder the data structure to improve
+cache utilization and access locality? Justify your modification.
+
+{
+    \begin{solution}
+
+        \textbf{Reordered data structure:}
+
+        We can improve cache utilization by reordering the struct members, putting the three needed values together. Considering memory alignment, we use a struct with \texttt{int, int, long} rather than \texttt{int, long, int}.
+        \begin{minted}{c}
+struct log_entry {
+    int src_ip;   
+    int status; 
+    long reference_time; 
+    char URL[128]; 
+    char browser[64];
+} log[NUM_ENTRIES];
+        \end{minted}
+
+        \textbf{Justification:}
+
+        In this case, after the first time we visit `\texttt{int src\_ip}' and get a compulsory miss, both `\texttt{long reference\_time}' and `\texttt{int status}' can be loaded in our 32-byte cache. Therefore the next two accesses to them will be cache hits, thanks to spacial locality. Now the cache is filled with `\texttt{int src\_ip, int status, long reference\_time}' and the beginning 16-bytes of \texttt{char URL[128]}. 
+
+        When accessing the 2nd log entry, the cache will be filled with the last 32 bytes of \texttt{char browser[64]} along with the \texttt{int src\_ip, int status, long reference\_time} of the second struct. 
+
+        When accessing the 3rd log entry, the cache status is the same as the 1st log entry. Therefore accessing every two structs yields 2 cache misses, thus on average, only 1 cache miss will occur on each entry.
+        
+        \textbf{Cache misses per entry:}
+        
+        On average, 1 cache miss per entry.
+        
+        % Compared to the original data structure, only 1 cache miss will occur on each entry.
+
+    \end{solution}
+}
+
+\newpage
+
+\question[6] To mitigate the miss in the question \ref{q:miss},
+design a different data structure. How would you rewrite the
+program to improve the overall performance?
+
+Your answer shall include:
+
+\begin{itemize}
+    \item A new layout of data structure of our server logs.
+    \item A description of how your function would improve the
+    overall performance.
+    \item How many cache misses per entries does your improved
+    design incur on average?
+\end{itemize}
+
+{
+    \begin{solution}
+        %%%%%%%%%%%%%% YOUR ANSWER HERE %%%%%%%%%%%%%%%%%%%%%%%%%
+        
+        \textbf{New layout of design}:
+
+        We can separate the struct into two structs. % Additionally, put the int together (int, int, long, instead of int, long, int), which minimizes the struct considering memory alignment.
+
+        \begin{minted}{c}
+    struct log_entry_1 {
+        int src_ip;  
+        int status; 
+        long reference_time;
+    } log_1[NUM_ENTRIES];
+
+    struct log_entry_2 {
+        char URL[128]; 
+        char browser[64]; 
+    } log_2[NUM_ENTRIES];
+
+        \end{minted}
+
+        \textbf{Description}:
+
+        If we separate the accessed variables and unused variables apart, the function only needs to check the values in the first struct, namely `\texttt{struct log\_entry\_1}'. Additionally, put the int together (int, int, long, instead of int, long, int), which minimizes the struct considering memory alignment.
+
+        Since the size of this struct is 16 bytes, and they are placed continously in memory, we can store two structs in one 32-byte cache block. Therefore, after the first cache miss, the next 5 references (the remaining accesses of the two adjacent entries) will all become cache hits. This can significantly improve the overall performance.\newline
+
+        \textbf{Cache misses per entry}:
+
+        Since there're only 1 cache miss out of two entries, the average cache misses per entry is $0.5$.
+
+        % In the new design, the function only needs to check the values in the first struct. Since the accessed things are placed together in memory (instead of separated by the quite big `URL' and `browser' data), we can take advantage of the spacial locality. Visits to the second entry can benefit from the previous entry, eliminating cache misses further.
+
+        % The size of the first struct (struct log\_entry\_1) is 16 bytes, and our cache line is 32 bytes. Two entries can be placed in one cache line. Therefore the average cache misses per entries is $0.5$.
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        \vspace{4in}
+    \end{solution}
+}
+
+\end{questions}

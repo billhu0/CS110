@@ -1,0 +1,11 @@
+Hi! We are glad to see you trying to typeset this homework.
+
+The main.tex is where we frame this homework, but all
+contents are included in other `.tex` files.
+
+- To do section 1, refer to `cache_basic.tex`.
+- For section 2, go to `overbyte.tex`.
+- For section 3, go to `practical.tex`.
+- You are recommended to complete a small survey in
+`feedback.tex`. Points will not be counted in this section
+but it's great to hear from you! :)
