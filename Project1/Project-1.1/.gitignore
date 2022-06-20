@@ -1,0 +1,14 @@
+.vscode
+**/__pycache__
+*.exe
+translator
+test/out
+block_comment.py
+out.txt
+.idea/
+target/
+*.dSYM/
+.DS_Store
+output.txt
+test.c
+check_comment.py

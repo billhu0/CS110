@@ -1,0 +1,22 @@
+
+
+# Ignore files with no extensions (UNIX executable) by
+# ignoring all files first, and then add all files with extensions back
+*
+!*.*
+!*/
+
+# Ignore all jpg files as they might be big
+*.jpg
+
+# Ignore vscode files
+.vscode/
+
+# Ignore macOS hidden files
+.DS_Store
+
+# Ignore CLion files
+.idea/
+
+# Ignore debug-use files
+*.dSYM/
