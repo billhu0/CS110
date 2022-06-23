@@ -2,7 +2,7 @@
 
 This repository contains the homeworks, labs, and projects done during the course CS110 (Computer Architecture I) spring 2022, at ShanghaiTech University. For more detailed information, including the slides, homework requirements, you may refer to the [course page](https://robotics.shanghaitech.edu.cn/courses/ca/22s/).
 
-**WARNING: You may utilize our implementations for reference or inspiration, but DO NOT violate the academic integrity requirements by copying any part of our code or assignments. We are NOT responsible for any potential penalities due to your plagiarism. **
+**WARNING: You may utilize our implementations for reference or inspiration, but DO NOT violate the academic integrity requirements by copying any part of our code or assignments. We are NOT responsible for any potential penalities due to your plagiarism.**
 
 
 
