@@ -1,8 +1,8 @@
 # CS110 (Computer Architecture I) Course
 
-This repository contains the homeworks, labs, and projects done during the course CS110 (Computer Architecture I) at ShanghaiTech University. All the detailed information can be found on the [course page](https://robotics.shanghaitech.edu.cn/courses/ca/22s/).
+This repository contains the homeworks, labs, and projects done during the course CS110 (Computer Architecture I) spring 2022, at ShanghaiTech University. For more detailed information, including the slides, homework requirements, you may refer to the [course page](https://robotics.shanghaitech.edu.cn/courses/ca/22s/).
 
-**WARNING: You may utilize our implementations for reference and inspiration, but DO NOT violate the academic integrity requirements by copying any part of our code or assignments. We are not responsible for any potential punishment due to your academic plagiarism.**
+**WARNING: You may utilize our implementations for reference or inspiration, but DO NOT violate the academic integrity requirements by copying any part of our code or assignments. We are NOT responsible for any potential penalities due to your plagiarism. **
 
 
 
@@ -101,21 +101,23 @@ This repository contains the homeworks, labs, and projects done during the cours
   - Virtual memory, TLB and Page Table visualization
   - Analyze TLB hit rate and page table hit rate 
 
+(Note: Lab 12 and Lab 13 are currently not in included in this repo)
+
 
 
 ## Projects
 
 ### Project 1: RV32I-RVC Bidirectional Translator
 
-- Project 1.1: RISC-V instructions to RVC instructions implemented in C89
-- Project 1.2: RVC instructions to RISC-V instructions implemented in RISC-V assembly
+- **Project 1.1**: RISC-V instructions to RVC instructions implemented in C89
+- **Project 1.2**: RVC instructions to RISC-V instructions implemented in RISC-V assembly
 
 - View on course page: [Introduction to Project 1](https://github.com/billhu0/CS110-ShanghaiTech/tree/main/Project1)
 
 ### Project 2: RISC-V CPU
 
-- Project 2.1: ALU and Regfile (Register file)
-- Project 2.2: Two-stage RISC-V CPU
+- **Project 2.1**: ALU and Regfile (Register file)
+- **Project 2.2**: Two-stage RISC-V CPU
 
 - View on course page: [Introduction to Project 2](https://github.com/billhu0/CS110-ShanghaiTech/tree/main/Project2)
 
@@ -130,3 +132,12 @@ This repository contains the homeworks, labs, and projects done during the cours
 - A chrome dino runner game running on Longan Nano board
 
 - View on course page: [Introduction to Project4](https://github.com/billhu0/CS110-ShanghaiTech/tree/main/Project4)
+
+
+
+
+
+> ## One More Thing...
+>
+> My personal lecture notes are here (on my blog): [Link](https://billhu.cn/2022/29_cs110/)
+
