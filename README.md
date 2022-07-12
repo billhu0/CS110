@@ -134,10 +134,3 @@ This repository contains the homeworks, labs, and projects done during the cours
 - View on course page: [Introduction to Project4](https://github.com/billhu0/CS110-ShanghaiTech/tree/main/Project4)
 
 
-
-
-
-> ## One More Thing...
->
-> My personal lecture notes are here (on my blog): [Link](https://billhu.cn/2022/29_cs110/)
-
