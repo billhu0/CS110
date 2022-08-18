@@ -100,7 +100,7 @@ This repository contains the homeworks, labs, and projects done during the cours
   - Virtual memory, TLB and Page Table visualization
   - Analyze TLB hit rate and page table hit rate 
 
-(Note: Lab 12 and Lab 13 are currently not in included in this repo)
+(Note: Lab 13 is not in included in this repo)
 
 
 
